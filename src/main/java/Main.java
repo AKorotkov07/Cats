@@ -16,15 +16,12 @@ public class Main {
                 .build();
 
         try {
-            List<Cat> cats;
             ObjectMapper mapper = new ObjectMapper();
-            cats = mapper.readValue(httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body(), new TypeReference<List<Cat>>() {});
+            List<Cat> cats = mapper.readValue(httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body(), new TypeReference<List<Cat>>() {});
 
-            List<Cat> filteredCats = cats.stream()
+            cats.stream()
                     .filter(cat -> cat.getUpvotes() != null)
-                    .toList();
-
-            filteredCats.forEach(System.out::println);
+                    .forEach(System.out::println);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
